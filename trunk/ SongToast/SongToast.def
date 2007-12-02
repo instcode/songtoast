@@ -1,0 +1,7 @@
+; SongToast.def : Declares the module parameters for the DLL.
+
+LIBRARY      "SongToast"
+DESCRIPTION  'SongToast Windows Dynamic Link Library'
+
+EXPORTS
+    winampGetGeneralPurposePlugin	@1
