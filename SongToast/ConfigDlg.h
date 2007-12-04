@@ -49,6 +49,15 @@ public:
 	BOOL m_isEnableUpdateStatusMessage;
 	CString m_szYID;
 	DWORD m_dwUpdateStatusMessageTime;
+	afx_msg void OnBnClickedCheckShowToastWindow();
+	afx_msg void OnBnClickedCheckYmStatusMessage();
+
+protected:
+	void UpdateToastSettings(BOOL isChecked);
+	void UpdateYahooSettings(BOOL isChecked);
+public:
+	afx_msg void OnBnClickedShowVariables();
+	virtual BOOL OnInitDialog();
 };
 
 //{{AFX_INSERT_LOCATION}}

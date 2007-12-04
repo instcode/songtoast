@@ -5,6 +5,6 @@ double GetCPUUsages();
 BOOL BeginThread(LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParameter);
 BOOL WaitForThreadsToExit();
 void ReadProcess(DWORD dwProcessId, LPCVOID lpBaseAddr, LPSTR lpszBuffer, IN OUT DWORD& dwSize);
-void SysTrace(const char *szFormat, ...);
+void SysTrace(const TCHAR *szFormat, ...);
 
 #endif

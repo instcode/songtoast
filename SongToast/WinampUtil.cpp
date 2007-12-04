@@ -30,66 +30,77 @@ TCHAR *TagFunc(const TCHAR * tag, void * p)
 {
 	TCHAR retbuf[2048];
 
-	if (!lstrcmpi(tag, L"percent")) {
-		wsprintf(retbuf, L"%d", GetCurrentPlayingPercent((HWND)p));
+	if (!lstrcmpi(tag, L"cpu")) {
+		double cpu = GetCPUUsages();
+		// CPU usage...
+		swprintf(retbuf, L"%2.1f", cpu);
+	}
+	else if (!lstrcmpi(tag, L"mem")) {
+		// Available Physical Memory...
+		MEMORYSTATUS stat;
+		GlobalMemoryStatus(&stat);
+		swprintf(retbuf, L"%d", stat.dwAvailPhys/1024);
+	}
+	else if (!lstrcmpi(tag, L"percent")) {
+		swprintf(retbuf, L"%d", GetCurrentPlayingPercent((HWND)p));
 	}
 	else if (!lstrcmpi(tag, L"pllen")) {
-		wsprintf(retbuf, L"%d", GetNumberOfTracksInPlayList((HWND)p));
+		swprintf(retbuf, L"%d", GetNumberOfTracksInPlayList((HWND)p));
 	}
 	else if (!lstrcmpi(tag, L"plpos")) {
-		wsprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 0, IPC_GETLISTPOS) + 1); 
+		swprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 0, IPC_GETLISTPOS) + 1); 
 	}
 	else if (!lstrcmpi(tag, L"lengthf")) {
 		int length = (int)::SendMessage((HWND)p, WM_WA_IPC, 1, IPC_GETOUTPUTTIME);
 		int s = length % 60, m = (length / 60) % 60, h = (length / 60) / 60;
 		if (h > 0) {
-			wsprintf(retbuf, L"%.2d:%.2d:%.2d", h, m, s);
+			swprintf(retbuf, L"%.2d:%.2d:%.2d", h, m, s);
 		}
 		else {
-			wsprintf(retbuf, L"%.2d:%.2d", m, s);
+			swprintf(retbuf, L"%.2d:%.2d", m, s);
 		}
 	}
 	else if (!lstrcmpi(tag, L"filename")) {
-		wsprintf(retbuf, L"%s", id3tag.filename);
+		swprintf(retbuf, L"%s", id3tag.filename);
 	}
 	else if (!lstrcmpi(tag, L"title")) {
-		wsprintf(retbuf, L"%s", id3tag.title);
+		swprintf(retbuf, L"%s", id3tag.title);
 	}
 	else if (!lstrcmpi(tag, L"artist")) {
-		wsprintf(retbuf, L"%s", id3tag.artist);
+		swprintf(retbuf, L"%s", id3tag.artist);
 	}
 	else if (!lstrcmpi(tag, L"genre")) {
-		wsprintf(retbuf, L"%s", id3tag.genre);
+		swprintf(retbuf, L"%s", id3tag.genre);
 	}
 	else if (!lstrcmpi(tag, L"album")) {
-		wsprintf(retbuf, L"%s", id3tag.album);
+		swprintf(retbuf, L"%s", id3tag.album);
 	}
 	else if (!lstrcmpi(tag, L"comment")) {
-		wsprintf(retbuf, L"%s", id3tag.comment);
+		swprintf(retbuf, L"%s", id3tag.comment);
 	}
 	else if (!lstrcmpi(tag, L"bitrate")) {
-		wsprintf(retbuf, L"%d", id3tag.bitrate);
+		swprintf(retbuf, L"%d", id3tag.bitrate);
 	}
 	else if (!lstrcmpi(tag, L"tracknumber")) {
-		wsprintf(retbuf, L"%d", id3tag.tracknumber);
+		swprintf(retbuf, L"%d", id3tag.tracknumber);
 	}
 	else if (!lstrcmpi(tag, L"length")) {
-		wsprintf(retbuf, L"%d", id3tag.length);
+		swprintf(retbuf, L"%d", id3tag.length);
 	}
 	else if (!lstrcmpi(tag, L"year")) {
-		wsprintf(retbuf, L"%d", id3tag.year);
+		swprintf(retbuf, L"%d", id3tag.year);
 	}
 	else if (!lstrcmpi(tag, L"shuffle")) {
-		wsprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 0, IPC_GET_SHUFFLE));
+		swprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 0, IPC_GET_SHUFFLE));
 	}
 	else if (!lstrcmpi(tag, L"channelnum")) {
-		wsprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 2, IPC_GETINFO));
+		swprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 2, IPC_GETINFO));
 	}
 	else if (!lstrcmpi(tag, L"channels")) {
 		lstrcpyn(retbuf, SendMessage((HWND)p, WM_WA_IPC, 2, IPC_GETINFO) - 1? L"stereo" : L"mono", MAX_PATH);
 	}
 	else if (!lstrcmpi(tag, L"srate")) {
-		wsprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 0, IPC_GETINFO));
+		swprintf(retbuf, L"%d", SendMessage((HWND)p, WM_WA_IPC, 0, IPC_GETINFO));
 	}
 	else if (!_wcsnicmp(L"cmp(", tag, 4))
 	{
@@ -253,7 +264,7 @@ int GetCurrentPlayingPercent(HWND hWnd) {
 	return nPercent;
 }
 
-BOOL GetToastMessage(LPTSTR lpszTemplate, LPTSTR lpszMessage)
+BOOL GetFormattedMessage(LPTSTR lpszTemplate, LPTSTR lpszMessage)
 {
 	HWND hWnd = GetWinampWindowHandle();
 

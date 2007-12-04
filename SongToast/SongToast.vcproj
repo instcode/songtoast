@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL;_UNICODE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -164,6 +164,9 @@
 			<File
 				RelativePath=".\WinampUtil.cpp">
 			</File>
+			<File
+				RelativePath=".\YahooUtil.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -192,6 +195,9 @@
 			</File>
 			<File
 				RelativePath=".\WinampUtil.h">
+			</File>
+			<File
+				RelativePath=".\YahooUtil.h">
 			</File>
 		</Filter>
 		<Filter

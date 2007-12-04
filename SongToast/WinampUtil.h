@@ -15,7 +15,7 @@ DWORD GetCurrentTrackLength(HWND hWnd);
 
 DWORD GetCurrentTrackPos(HWND hWnd);
 
-BOOL GetToastMessage(LPTSTR lpszTemplate, LPTSTR lpszMessage);
+BOOL GetFormattedMessage(LPTSTR lpszTemplate, LPTSTR lpszMessage);
 
 LPSTR GetPlayListFileA(HWND hWnd, int nIndex);
 

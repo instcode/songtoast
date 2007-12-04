@@ -79,7 +79,7 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "Comments", "Wanna customize your own one? Just drop me an email at instcode@gmail.com for the source code."
+            VALUE "Comments", "A Winamp plugin to notify the current playing song using toast window"
             VALUE "CompanyName", "Home"
             VALUE "FileDescription", "SongToast Winamp Plugin"
             VALUE "FileVersion", "1.0.0.1"
@@ -131,7 +131,7 @@ BEGIN
                     WS_TABSTOP,13,72,156,12
     EDITTEXT        IDC_EDIT_TEMPLATE,84,14,152,12,ES_AUTOHSCROLL
     LTEXT           "Message Template",IDC_STATIC,13,14,60,12
-    PUSHBUTTON      "«",IDC_ADD_VARIABLES,239,14,18,12
+    PUSHBUTTON      "«",IDC_SHOW_VARIABLES,239,14,18,12
     EDITTEXT        IDC_EDIT_YID,177,72,80,12,ES_AUTOHSCROLL
     LTEXT           "Update it every ",IDC_STATIC,22,90,50,12
     EDITTEXT        IDC_EDIT_STATUS_UPDATE_TIME,84,89,54,12,ES_AUTOHSCROLL

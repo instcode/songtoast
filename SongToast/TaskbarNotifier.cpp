@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "TaskbarNotifier.h"
-#include ".\taskbarnotifier.h"
 
 #define IDT_HIDDEN		0
 #define IDT_APPEARING		1
@@ -423,7 +422,7 @@ void CTaskbarNotifier::OnMouseMove(UINT nFlags, CPoint point)
 
 void CTaskbarNotifier::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	m_pWndParent->PostMessage(WM_TASKBARNOTIFIERCLICKED,0,0);
+	m_pWndParent->PostMessage(WM_TASKBARNOTIFIERCLICKED, 0, 0);
 	CWnd::OnLButtonUp(nFlags, point);
 }
 
