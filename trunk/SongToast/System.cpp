@@ -163,12 +163,12 @@ BOOL WaitForThreadsToExit()
 	{
 		if (hThread[i] != NULL)
 		{
-			SysTrace("Wait for thread %d to exit...\n", hThread[i]);
+			SysTrace(L"Wait for thread %d to exit...\n", hThread[i]);
 			// Wait until the service thread has terminated.
 			WaitForSingleObject(hThread[i], INFINITE);
 			// Close all thread handles upon completion.
 			CloseHandle(hThread[i]);
-			SysTrace("Thread %d exited", hThread[i]);
+			SysTrace(L"Thread %d exited", hThread[i]);
 		}
 	}
 	return TRUE;
@@ -181,16 +181,16 @@ void ReadProcess(DWORD dwProcessId, LPCVOID lpBaseAddr, LPSTR lpszBuffer, DWORD&
 	CloseHandle(hProcess);
 }
 
-void SysTrace(const char *szFormat, ...)
+void SysTrace(const TCHAR *szFormat, ...)
 {
-	char szMessage[1024];
+	TCHAR szMessage[1024];
 	va_list vl;
 	va_start(vl, szFormat);
-	vsprintf(szMessage, szFormat, vl);
+	vswprintf(szMessage, szFormat, vl);
 	va_end(vl);
 #ifdef _DEBUG
 	OutputDebugString(szMessage);
 #else
-	printf(szMessage);
+	wprintf(szMessage);
 #endif
 }

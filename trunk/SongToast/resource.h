@@ -9,10 +9,10 @@
 #define IDC_CHECK_SHOW_TOAST_WINDOW     2002
 #define IDC_EDIT_TOAST_TIME_TO_STAY     2003
 #define IDC_ADD_VARIABLES               2004
+#define IDC_SHOW_VARIABLES              2004
 #define IDC_CHECK_YM_STATUS_MESSAGE     2005
 #define IDC_EDIT_TEMPLATE               2006
 #define IDC_EDIT_YID                    2007
-#define IDC_EDIT5                       2008
 #define IDC_EDIT_STATUS_UPDATE_TIME     2008
 
 // Next default values for new objects

@@ -19,26 +19,32 @@ public:
         CSongToastApp();
 // Overrides
 public:
-        DECLARE_MESSAGE_MAP()
+	DECLARE_MESSAGE_MAP()
 public:
-		static void Unload();
-        static void Config();
-        static int Load();
+	static void Unload();
+	static void Config();
+	static int Load();
 private:
-        static DWORD WINAPI ThreadProc(LPVOID lpParameter);
-		
-		void Deinitialize();
-        void Configure();
-        int Initialize();
+	static DWORD WINAPI ThreadProc(LPVOID lpParameter);
+	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	
+	void Deinitialize();
+	void Configure();
+	int Initialize();
+	
+	CTaskbarNotifier m_wndTaskbarNotifier;
+	BOOL isRunning;
+private:
+	void ReadProfileSettings();
+	void WriteProfileSettings();
 
-		CTaskbarNotifier m_wndTaskbarNotifier;
-        BOOL isRunning;
 private:
-		CString m_szTemplate;
-		BOOL m_isToastEnable;
-		DWORD m_dwToastUpdateTime;
-		DWORD m_dwToastStayTime;
-		BOOL m_isEnableUpdateStatusMessage;
-		CString m_szYID;
-		DWORD m_dwUpdateStatusMessageTime;
+	CString m_szTemplate;
+	BOOL m_isToastEnable;
+	DWORD m_dwToastUpdateTime;
+	DWORD m_dwToastStayTime;
+	BOOL m_isEnableUpdateStatusMessage;
+	CString m_szYID;
+	DWORD m_dwUpdateStatusMessageTime;
+	WNDPROC m_lpWndProcOld;
 };
