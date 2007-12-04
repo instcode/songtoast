@@ -1,6 +1,7 @@
-// ConfigDlg.cpp : implementation file
-//
-
+/*
+	SongToast Winamp Plugin
+	Copyright (C) 2005 Khoa Nguyen <instcode (at) gmail.com>
+*/
 #include "stdafx.h"
 #include "SongToast.h"
 #include "ConfigDlg.h"
@@ -88,6 +89,7 @@ void CConfigDlg::OnBnClickedHelp()
 
 void CConfigDlg::OnBnClickedShowVariables()
 {
+	// See more http://www.myplugins.info/gen_toaster.htm
 	MessageBox(
 		L"SongToast uses Advanced Title Formatting which is provided by Winamp Media Library, Winamp Input Plugins...\n"
 		L"Go to \"Preference -> General Preferences -> Titles -> Advanced Title Formatting\" for more supported tags/variables\n\n"
