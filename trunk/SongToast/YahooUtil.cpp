@@ -14,7 +14,7 @@ void SetCustomStatusMessage(LPTSTR szProfile, LPCTSTR szMessage) {
 		// YM 9.0.0.xxx(+)
 		RegSetValueEx(hRootKey, L"1_W", 0, REG_SZ, (LPBYTE) szMessage, (DWORD)(_tcslen(szMessage) * sizeof(TCHAR)) + 1);
 		// Update the combo box..
-		HWND hWnd = NULL;//::FindWindow(L"YahooBuddyMain", NULL);
+		HWND hWnd = ::FindWindow(L"YahooBuddyMain", NULL);
 		if (hWnd != NULL) {
 			/***************************************
 			 Known WM_COMMAND, WPARAM (MS.Spy++, http://yayak.wordpress.com/2007/05/27/yahoo-messenger-idle-status-by-delphi/)

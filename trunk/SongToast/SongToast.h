@@ -9,6 +9,7 @@
 
 #include "resource.h"		// main symbols
 #include "TaskbarNotifier.h"
+#include "ConfigDlg.h"
 
 // CSongToastApp
 // See SongToast.cpp for the implementation of this class
@@ -47,4 +48,6 @@ private:
 	CString m_szYID;
 	DWORD m_dwUpdateStatusMessageTime;
 	WNDPROC m_lpWndProcOld;
+
+	CConfigDlg* m_pShowedDlg;
 };
