@@ -1,3 +1,7 @@
+/*
+	SongToast Winamp Plugin
+	Copyright (C) 2005 Khoa Nguyen <instcode (at) gmail.com>
+*/
 #include "stdafx.h"
 #include "YahooUtil.h"
 

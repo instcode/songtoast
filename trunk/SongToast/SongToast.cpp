@@ -1,6 +1,7 @@
-// SongToast.cpp : Defines the initialization routines for the DLL.
-//
-
+/*
+	SongToast Winamp Plugin
+	Copyright (C) 2005 Khoa Nguyen <instcode (at) gmail.com>
+*/
 #include "stdafx.h"
 #include "SongToast.h"
 #include "Plugin.h"
