@@ -42,7 +42,7 @@
 
 winampGeneralPurposePlugin plugin = {
 	GPPHDR_VER,
-	"SongToast v1.0",
+	"SongToast v1.0.0",
 	CSongToastApp::Load,
 	CSongToastApp::Config,
 	CSongToastApp::Unload
@@ -102,17 +102,8 @@ int CSongToastApp::Initialize()
 	m_wndTaskbarNotifier.SetTextRect(
 		CRect(50, 10, m_wndTaskbarNotifier.m_nSkinWidth - 30, m_wndTaskbarNotifier.m_nSkinHeight - 10));
 
-	// Use Winamp profile settings
-	TCHAR buf[MAX_PATH];
-	VERIFY(GetWindowModuleFileName(plugin.hwndParent, buf, MAX_PATH));
-	LPTSTR ext = _tcsrchr(buf, '.');
-	_tcscpy(ext, _T(".ini"));
-
-	free((void*)m_pszProfileName);
-	free((void*)m_pszRegistryKey);
-
-	m_pszProfileName = _tcsdup(buf);
-	m_pszRegistryKey = NULL;
+	// Use registry to store settings (support unicode string better than .ini)
+	SetRegistryKey(_T("Winamp"));
 
 	// Read & Update configuration
 	ReadProfileSettings();
@@ -129,32 +120,38 @@ int CSongToastApp::Initialize()
 
 void CSongToastApp::ReadProfileSettings()
 {
-	m_szTemplate = GetProfileString(L"gen_SongToast", L"template", L"%artist% - $if2(%title%,$filepart(%filename%)) '('%percent%'%' of %lengthf%')'");
-	m_isToastEnable = GetProfileInt(L"gen_SongToast", L"toast_enable", TRUE);
-	m_dwToastUpdateTime = GetProfileInt(L"gen_SongToast", L"toast_update_time", 10000);
-	m_dwToastStayTime = GetProfileInt(L"gen_SongToast", L"toast_stay_time", 5000);
+	m_szTemplate = GetProfileString(L"", L"template", L"%artist% - $if2(%title%,$filepart(%filename%)) '('%percent%'%' of %lengthf%')'");
+	m_isToastEnable = GetProfileInt(L"", L"toast_enable", TRUE);
+	m_dwToastUpdateTime = GetProfileInt(L"", L"toast_update_time", 10000);
+	m_dwToastStayTime = GetProfileInt(L"", L"toast_stay_time", 5000);
 
-	m_isEnableUpdateStatusMessage = GetProfileInt(L"gen_SongToast", L"yahoo_status_enable", FALSE);
-	m_szYID= GetProfileString(L"gen_SongToast", L"yid", L"");
-	m_dwUpdateStatusMessageTime = GetProfileInt(L"gen_SongToast", L"yahoo_status_update_time", 10000);
+	m_isEnableUpdateStatusMessage = GetProfileInt(L"", L"yahoo_status_enable", FALSE);
+	m_szYID= GetProfileString(L"", L"yid", L"");
+	m_dwUpdateStatusMessageTime = GetProfileInt(L"", L"yahoo_status_update_time", 10000);
 }
 
 void CSongToastApp::WriteProfileSettings()
 {
-	WriteProfileString(L"gen_SongToast", L"template", m_szTemplate);
-	WriteProfileInt(L"gen_SongToast", L"toast_enable", m_isToastEnable);
-	WriteProfileInt(L"gen_SongToast", L"toast_update_time", m_dwToastUpdateTime);
-	WriteProfileInt(L"gen_SongToast", L"toast_stay_time", m_dwToastStayTime);
+	WriteProfileString(L"", L"template", m_szTemplate);
+	WriteProfileInt(L"", L"toast_enable", m_isToastEnable);
+	WriteProfileInt(L"", L"toast_update_time", m_dwToastUpdateTime);
+	WriteProfileInt(L"", L"toast_stay_time", m_dwToastStayTime);
 
-	WriteProfileInt(L"gen_SongToast", L"yahoo_status_enable", m_isEnableUpdateStatusMessage);
-	WriteProfileString(L"gen_SongToast", L"yid", m_szYID);
-	WriteProfileInt(L"gen_SongToast", L"yahoo_status_update_time", m_dwUpdateStatusMessageTime);
+	WriteProfileInt(L"", L"yahoo_status_enable", m_isEnableUpdateStatusMessage);
+	WriteProfileString(L"", L"yid", m_szYID);
+	WriteProfileInt(L"", L"yahoo_status_update_time", m_dwUpdateStatusMessageTime);
 }
 
 void CSongToastApp::Configure()
 {
-	CConfigDlg dlg;
-	
+	if (m_pShowedDlg != NULL)
+	{
+		m_pShowedDlg->SetForegroundWindow();
+		return;
+	}
+	CConfigDlg dlg(CWnd::FromHandle(::GetDesktopWindow()));
+	m_pShowedDlg = &dlg;
+
 	dlg.m_szTemplate = m_szTemplate;
 	dlg.m_isToastEnable = m_isToastEnable;
 	dlg.m_dwToastUpdateTime = m_dwToastUpdateTime;
@@ -165,6 +162,9 @@ void CSongToastApp::Configure()
 
 	if (IDOK == dlg.DoModal())
 	{
+		// The dialog is no longer valid
+		m_pShowedDlg = NULL;
+
 		m_szTemplate = dlg.m_szTemplate;
 		m_isToastEnable = dlg.m_isToastEnable;
 		m_dwToastUpdateTime = dlg.m_dwToastUpdateTime;
@@ -176,6 +176,8 @@ void CSongToastApp::Configure()
 		// Save configuration
 		WriteProfileSettings();
 	}
+	// Make sure the m_pShowedDlg shouldn't be used somewhere else
+	m_pShowedDlg = NULL;
 }
 
 void CSongToastApp::Deinitialize()
@@ -220,7 +222,7 @@ LRESULT CALLBACK CSongToastApp::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 {
 	if (message == WM_TASKBARNOTIFIERCLICKED)
 	{
-		theApp.Configure();
+		theApp.Config();
 	}
 	return CallWindowProc(theApp.m_lpWndProcOld, hWnd, message, wParam, lParam);
 }
