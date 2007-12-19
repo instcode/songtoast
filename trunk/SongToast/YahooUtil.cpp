@@ -14,7 +14,6 @@ void SetCustomStatusMessage(LPTSTR szProfile, LPCTSTR szMessage) {
 	if (hRootKey != NULL) {
 		// YM 8.1.0.xxx(-)
 		RegSetValueEx(hRootKey, L"1", 0, REG_SZ, (LPBYTE) szMessage, (DWORD)(_tcslen(szMessage) * sizeof(TCHAR)) + 1);
-		RegDeleteValue(hRootKey, L"1_bin");
 		// YM 9.0.0.xxx(+)
 		RegSetValueEx(hRootKey, L"1_W", 0, REG_SZ, (LPBYTE) szMessage, (DWORD)(_tcslen(szMessage) * sizeof(TCHAR)) + 1);
 		// Update the combo box..
